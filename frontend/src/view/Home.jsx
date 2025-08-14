@@ -4,7 +4,7 @@ export default function Home() {
     return (
         <>
             <section id="accueil" className="hero container">
-                <h1>S’entraîner à la trésorerie</h1>
+                <h1>S’entraîner à la trésorerie avec les bg</h1>
                 <p className="subtitle">
                     Perfectionnez vos compétences et maîtrisez les processus clés grâce à notre plateforme d’entraînement interactive.
                 </p>
