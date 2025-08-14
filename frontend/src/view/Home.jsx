@@ -1,30 +1,39 @@
+import React from "react";
+
 export default function Home() {
     return (
-        <div className="container">
-            <section className="hero">
-                <h1>Bienvenue sur SEIO</h1>
+        <>
+            <section id="accueil" className="hero container">
+                <h1>S’entraîner à la trésorerie</h1>
+                <p className="subtitle">
+                    Perfectionnez vos compétences et maîtrisez les processus clés grâce à notre plateforme d’entraînement interactive.
+                </p>
             </section>
 
-            <section id="status" className="card">
-                <h2>Statut</h2>
-            </section>
+            <section className="grid">
+                <article id="questions" className="card">
+                    <div className="header">
+                        <div className="badge" aria-hidden="true">❓</div>
+                        <h3>Questions</h3>
+                    </div>
+                    <p>Testez vos connaissances sur le légal, les normes et la trésorerie.</p>
+                    <div className="actions">
+                        <a className="btn primary" href="/questions">Commencer</a>
+                        <a className="btn ghost" href="/questions/advanced">Paramètres avancés</a>
+                    </div>
+                </article>
 
-            <section id="features" className="grid">
-                <div className="card">
-                    <h3>Rapide</h3>
-                </div>
-                <div className="card">
-                    <h3>Claire</h3>
-                </div>
-                <div className="card">
-                    <h3>Évolutive</h3>
-                </div>
+                <article id="processus" className="card">
+                    <div className="header">
+                        <div className="badge green" aria-hidden="true">📘</div>
+                        <h3>Processus</h3>
+                    </div>
+                    <p>Maîtrisez les processus en reconstituant l’ordre des étapes.</p>
+                    <div className="actions">
+                        <a className="btn primary" href="/processus">Choisir un processus</a>
+                    </div>
+                </article>
             </section>
-
-            <section id="contact" className="card">
-                <h2>Contact</h2>
-                <p>Ajoute ici un e‑mail, un lien GitHub, etc.</p>
-            </section>
-        </div>
+        </>
     );
 }
