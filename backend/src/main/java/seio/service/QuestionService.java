@@ -17,14 +17,14 @@ public class QuestionService {
     }
 
     public Question save(Question question) {
-        return QuestionRepository.save(question);
+        return questionRepository.save(question);
     }
 
     public List<Question> findAll() {
-        return QuestionRepository.findAll();
+        return questionRepository.findAll();
     }
 
     public Optional<Question> findById(Long id) {
-        return QuestionRepository.findById(id);
+        return questionRepository.findById(id);
     }
 }
