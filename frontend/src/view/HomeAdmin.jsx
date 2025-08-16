@@ -1,5 +1,5 @@
 import { logout, getCurrentUser } from '../service/Auth';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 export default function HomeAdmin() {
     const navigate = useNavigate();
@@ -15,6 +15,7 @@ export default function HomeAdmin() {
             </div>
             <hr />
             <p>Ici tu mettras la gestion des questions/processus (endpoints réservés ADMIN).</p>
+            <Link to="/admin/processus" className="button">Créer un processus</Link>
         </div>
     );
 }

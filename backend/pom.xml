@@ -43,7 +43,8 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <version>1.18.34</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -60,12 +61,34 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <!-- Compiler plugin: Java 21 + annotationProcessorPaths -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
                 <configuration>
                     <release>${java.version}</release>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.34</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
+            </plugin>
+
+            <!-- Recommandé pour Java 21 afin d’éviter des soucis de tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.2.5</version>
             </plugin>
         </plugins>
     </build>

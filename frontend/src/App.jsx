@@ -6,6 +6,8 @@ import HomeAdmin from './view/HomeAdmin.jsx';
 import HomeUser from './view/HomeUser.jsx';
 import NotFound from "./view/NotFound";
 import Forbidden from "./view/Forbidden";
+import ProcessusCreate from './view/ProcessusCreate.jsx';
+
 
 // Protège l'accès si non connecté (gère loading)
 function RequireAuth() {
@@ -44,6 +46,7 @@ export default function App() {
             <Route element={<RequireAuth />}>
                 <Route element={<RequireRole allow={['ADMIN']} />}>
                     <Route path="/admin" element={<HomeAdmin />} />
+                    <Route path="/admin/processus" element={<ProcessusCreate />} />
                 </Route>
 
                 <Route element={<RequireRole allow={['USER']} />}>

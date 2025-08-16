@@ -8,6 +8,8 @@ import seio.model.Utilisateur;
 import seio.model.enumeration.Role;
 import seio.repository.UtilisateurRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UtilisateurService {
@@ -29,5 +31,10 @@ public class UtilisateurService {
 
     public Utilisateur getByNom(String nom) {
         return repo.findByNom(nom).orElseThrow(() -> new IllegalArgumentException("Utilisateur introuvable"));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Utilisateur> findAll() {
+        return repo.findAll();
     }
 }

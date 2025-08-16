@@ -28,10 +28,9 @@ export async function apiGet(path, extraHeaders = {}) {
 
     const res = await fetch(url, {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json', ...authHeader(), ...extraHeaders },
+        headers: { Accept: 'application/json', ...authHeader(), ...extraHeaders },
         credentials: 'include',
     });
-
 
     if (!res.ok) throw await toHttpError(res);
 
@@ -48,3 +47,32 @@ export async function apiGet(path, extraHeaders = {}) {
         throw new Error('UNEXPECTED_RESPONSE_NOT_JSON');
     }
 }
+
+
+export async function apiPost(path, body, extraHeaders = {}) {
+    const url = joinUrl(baseURL, path);
+
+    const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...authHeader(), ...extraHeaders },
+        credentials: 'include',
+        body: JSON.stringify(body),
+    });
+
+    if (!res.ok) throw await toHttpError(res);
+
+    const contentType = res.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+        try {
+            return await res.json();
+        } catch (e) {
+            throw new Error('INVALID_JSON_RESPONSE');
+        }
+    } else {
+        const text = await res.text();
+        console.warn('[apiPost] response not json (first 500 chars):', text.slice(0, 500));
+        throw new Error('UNEXPECTED_RESPONSE_NOT_JSON');
+    }
+}
+
+
