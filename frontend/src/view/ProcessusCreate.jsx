@@ -1,5 +1,6 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react';
-import { apiGet, apiPost } from '../service/Api'; // adapte le chemin
+// src/pages/ProcessusCreate.jsx
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { fetchUsers, fetchProcessCategories, createProcess } from '../service/ProcessusService';
 import '../style/ProcessusCreate.css';
 
 function toISO(dateStr) { return dateStr ? new Date(dateStr).toISOString() : undefined; }
@@ -25,7 +26,7 @@ export default function ProcessusCreate() {
     const [submitting, setSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState(null);
     const [createdId, setCreatedId] = useState(null);
-    const didInit = useRef(false);
+    const didInit = useRef(false); // fix: useRef au lieu de seRef
 
     useEffect(() => {
         if (didInit.current) return;
@@ -34,14 +35,14 @@ export default function ProcessusCreate() {
         (async () => {
             try {
                 const [u, c] = await Promise.all([
-                    apiGet('/users'),
-                    apiGet('/process-categories'),
+                    fetchUsers(),
+                    fetchProcessCategories(),
                 ]);
                 setUsers(u);
                 setCategories(c);
             } catch (err) {
                 console.error('Ref data error:', err);
-                setErrorRef(err.body?.error || err.body?.message || err.message);
+                setErrorRef(err.body?.error || err.body?.message || err.message || 'Erreur inconnue');
             } finally {
                 setLoadingRef(false);
             }
@@ -66,7 +67,9 @@ export default function ProcessusCreate() {
     }
     function removeStep(idx) {
         setForm(prev => {
-            const steps = prev.steps.filter((_, i) => i !== idx).map((s, i) => ({ ...s, order: i + 1 }));
+            const steps = prev.steps
+                .filter((_, i) => i !== idx)
+                .map((s, i2) => ({ ...s, order: i2 + 1 }));
             return { ...prev, steps: steps.length ? steps : [{ title: '', assigneeId: '', dueDate: '', order: 1 }] };
         });
     }
@@ -111,7 +114,7 @@ export default function ProcessusCreate() {
 
         setSubmitting(true);
         try {
-            const created = await apiPost('/processes', payload);
+            const created = await createProcess(payload);
             setCreatedId(created?.id || '(inconnu)');
             setForm({
                 name: '',
@@ -123,8 +126,8 @@ export default function ProcessusCreate() {
                 ownerId: '',
                 steps: [{ title: '', assigneeId: '', dueDate: '', order: 1 }],
             });
-        } catch (e) {
-            setSubmitError(e?.message || 'Erreur lors de la création du processus.');
+        } catch (e2) {
+            setSubmitError(e2?.body?.message || e2?.message || 'Erreur lors de la création du processus.');
         } finally {
             setSubmitting(false);
         }
@@ -259,13 +262,20 @@ export default function ProcessusCreate() {
                                 />
                             </div>
                             <div style={{ alignSelf: 'end' }}>
-                                <button type="button" className="button button-secondary" onClick={() => removeStep(idx)} disabled={(form.steps || []).length <= 1}>
+                                <button
+                                    type="button"
+                                    className="button button-secondary"
+                                    onClick={() => removeStep(idx)}
+                                    disabled={(form.steps || []).length <= 1}
+                                >
                                     Supprimer
                                 </button>
                             </div>
                         </div>
                     ))}
-                    <button type="button" className="button button-secondary" onClick={addStep}>+ Ajouter une étape</button>
+                    <button type="button" className="button button-secondary" onClick={addStep}>
+                        + Ajouter une étape
+                    </button>
                 </fieldset>
 
                 <div className="actions">

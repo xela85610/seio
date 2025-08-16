@@ -59,13 +59,13 @@ public class ProcessusController {
     }
 
     // ====== Référentiel Users pour le front (chemin absolu) ======
-    @GetMapping(path = "/api/users")
+    @GetMapping(path = "/users")
     public List<UserLiteDTO> listUsers(@RequestParam(name = "active", required = false) Boolean active) {
         List<Utilisateur> users = utilisateurService.findAll();
         return users.stream().map(UtilisateurMapper::toLite).toList();
     }
 
-    @GetMapping(path = "/api/process-categories")
+    @GetMapping(path = "/process-categories")
     public List<ProcessCategoryDTO> listProcessCategories(
             @RequestParam(name = "active", required = false) Boolean active) {
 
