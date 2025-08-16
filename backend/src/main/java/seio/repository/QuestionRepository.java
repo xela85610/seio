@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface QuestionRepository extends JpaRepository {
+public interface QuestionRepository extends JpaRepository<Question, Integer> {
 
     Question save(Question question);
 

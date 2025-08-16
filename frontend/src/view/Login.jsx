@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { login } from '../service/Auth';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../style/Login.css';
+import { useAuth } from '../AuthContext';
 
 export default function Login() {
     const [username, setUsername] = useState('');
@@ -10,6 +11,7 @@ export default function Login() {
     const [showPwd, setShowPwd] = useState(false);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const { login: loginContext } = useAuth();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -20,17 +22,18 @@ export default function Login() {
         e.preventDefault();
         setError('');
         setLoading(true);
+
         try {
             const me = await login(username.trim(), password);
+            loginContext(me);
 
             if (from) {
-                console.log('login success me=', me);
-                navigate(from || (me.role === 'ADMIN' ? '/admin' : '/user'), { replace: true });
-                console.log('called navigate');
+                const target = from || (me?.role === 'ADMIN' ? '/admin' : '/user');
+                navigate(target, { replace: true });
                 return;
             }
 
-            const target = me.role === 'ADMIN' ? '/admin' : '/user';
+            const target = me?.role === 'ADMIN' ? '/admin' : '/user';
             navigate(target, { replace: true });
         } catch (err) {
             setError(err?.body?.error || err?.message || 'Identifiants invalides');
@@ -38,6 +41,7 @@ export default function Login() {
             setLoading(false);
         }
     };
+
 
     return (
         <div className="login-container">

@@ -5,8 +5,7 @@ export default function ProtectedRoute({ children, role }) {
     if (!isAuthenticated()) return <Navigate to="/login" replace />;
     const me = getCurrentUser();
     if (role && me?.role !== role) {
-        // Redirige vers la page correspondant à son rôle
-        return <Navigate to={me?.role === 'ADMIN' ? '/admin' : '/membre'} replace />;
+        return <Navigate to={me?.role === 'ADMIN' ? '/admin' : '/user'} replace />;
     }
     return children;
 }

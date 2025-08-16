@@ -1,4 +1,3 @@
-// src/service/Auth.js
 import { apiGet } from './Api';
 
 function encodeBasic(username, password) {
@@ -23,7 +22,6 @@ function encodeBasic(username, password) {
 export async function login(username, password) {
     console.log('[Auth.login] username=', username);
     const basic = encodeBasic(username, password);
-    // on envoie un objet headers ; apiGet va le fusionner
     const me = await apiGet('/auth/me', { Authorization: basic });
     sessionStorage.setItem('auth_basic', basic);
     sessionStorage.setItem('me', JSON.stringify(me));

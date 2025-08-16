@@ -27,7 +27,6 @@ function RequireRole({ allow }) {
     return <Outlet />;
 }
 
-// Page racine: redirige en fonction du rôle si connecté
 function RootRedirect() {
     const { user, loading } = useAuth();
     if (loading) return <div>Chargement…</div>;

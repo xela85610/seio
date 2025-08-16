@@ -1,6 +1,4 @@
-const baseURL =
-    process.env.REACT_APP_API_BASE_URL ??
-    'http://localhost:8080/api';
+const baseURL = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:8080/api';
 
 export function authHeader() {
     const token = sessionStorage.getItem('auth_basic'); // "Basic xxx"
@@ -45,20 +43,8 @@ export async function apiGet(path, extraHeaders = {}) {
             throw new Error('INVALID_JSON_RESPONSE');
         }
     } else {
-        // pour debug : retournons le texte (HTML) si ce n'est pas du JSON
         const text = await res.text();
         console.warn('[apiGet] response not json (first 500 chars):', text.slice(0, 500));
         throw new Error('UNEXPECTED_RESPONSE_NOT_JSON');
     }
-}
-
-export async function apiHead(path, extraHeaders = {}) {
-    const url = joinUrl(baseURL, path);
-    const res = await fetch(url, {
-        method: 'HEAD',
-        headers: { ...authHeader(), ...extraHeaders },
-        credentials: 'include',
-    });
-    if (!res.ok) throw await toHttpError(res);
-    return true;
 }
