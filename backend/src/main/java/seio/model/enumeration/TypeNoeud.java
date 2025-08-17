@@ -4,7 +4,7 @@ public enum TypeNoeud {
 
     START,
     ACTION,
-    DECISION,
+    QUESTION,
     END
 
 }

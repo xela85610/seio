@@ -4,9 +4,8 @@ import { useAuth } from './AuthContext';
 import Login from './view/Login.jsx';
 import HomeAdmin from './view/HomeAdmin.jsx';
 import HomeUser from './view/HomeUser.jsx';
-import NotFound from "./view/NotFound";
-import Forbidden from "./view/Forbidden";
-import ProcessusCreate from './view/ProcessusCreate.jsx';
+import NotFound from "./component/NotFound";
+import Forbidden from "./component/Forbidden";
 
 
 // Protège l'accès si non connecté (gère loading)
@@ -46,7 +45,6 @@ export default function App() {
             <Route element={<RequireAuth />}>
                 <Route element={<RequireRole allow={['ADMIN']} />}>
                     <Route path="/admin" element={<HomeAdmin />} />
-                    <Route path="/admin/processus" element={<ProcessusCreate />} />
                 </Route>
 
                 <Route element={<RequireRole allow={['USER']} />}>

@@ -3,10 +3,8 @@ package seio.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import seio.model.enumeration.ProcessStatus;
 import jakarta.persistence.*;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +21,6 @@ public class Processus {
 
     @Column(nullable = false)
     private String name;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private ProcessStatus status = ProcessStatus.DRAFT;
 
     @OneToMany(mappedBy = "process", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Acteur> acteurs = new ArrayList<>();
